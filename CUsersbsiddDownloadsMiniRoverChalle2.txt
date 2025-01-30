@@ -1,0 +1,65 @@
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino: In function 'void MoveArm(int, int)':
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:82:24: error: no matching function for call to 'Servo::write(Servo&)'
+   armBase.write(armBase);
+                        ^
+In file included from C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:1:0:
+C:\Users\bsidd\OneDrive\Documents\Arduino\libraries\Servo\src/Servo.h:115:8: note: candidate: void Servo::write(int)
+   void write(int value);             // if value is < 200 it's treated as an angle, otherwise as pulse width in microseconds
+        ^~~~~
+C:\Users\bsidd\OneDrive\Documents\Arduino\libraries\Servo\src/Servo.h:115:8: note:   no known conversion for argument 1 from 'Servo' to 'int'
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:83:28: error: no matching function for call to 'Servo::write(Servo&)'
+   armMiddle.write(armMiddle);
+                            ^
+In file included from C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:1:0:
+C:\Users\bsidd\OneDrive\Documents\Arduino\libraries\Servo\src/Servo.h:115:8: note: candidate: void Servo::write(int)
+   void write(int value);             // if value is < 200 it's treated as an angle, otherwise as pulse width in microseconds
+        ^~~~~
+C:\Users\bsidd\OneDrive\Documents\Arduino\libraries\Servo\src/Servo.h:115:8: note:   no known conversion for argument 1 from 'Servo' to 'int'
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino: In function 'void TeleOp()':
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:91:10: error: 'class DabbleClass' has no member named 'processInputs'; did you mean 'processInput'?
+   Dabble.processInputs();
+          ^~~~~~~~~~~~~
+          processInput
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino: In function 'void autoMode()':
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:127:5: error: 'onLine' was not declared in this scope
+     onLine = true;
+     ^~~~~~
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:129:5: error: expected ';' before 'Serial'
+     Serial.println("fowarding");
+     ^~~~~~
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:131:5: error: 'onLine' was not declared in this scope
+     onLine = false;
+     ^~~~~~
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:133:8: error: 'onLine' was not declared in this scope
+   if (!onLine) {
+        ^~~~~~
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:143:7: error: 'atEnd' was not declared in this scope
+       atEnd = true;
+       ^~~~~
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:143:7: note: suggested alternative: 'atan2'
+       atEnd = true;
+       ^~~~~
+       atan2
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:152:7: error: 'atEnd' was not declared in this scope
+   if (atEnd) {         //only straight forward code here. Use delay to wait for action to finish
+       ^~~~~
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:152:7: note: suggested alternative: 'atan2'
+   if (atEnd) {         //only straight forward code here. Use delay to wait for action to finish
+       ^~~~~
+       atan2
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:162:5: error: expected ';' before 'delay'
+     delay(1000);
+     ^~~~~
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:169:5: error: 'Auto' was not declared in this scope
+     Auto = false;
+     ^~~~
+C:\Users\bsidd\Downloads\MiniRoverChallengeT1Code\MiniRoverChallengeT1Code.ino:169:5: note: suggested alternative: 'auto'
+     Auto = false;
+     ^~~~
+     auto
+Multiple libraries were found for "Servo.h"
+  Used: C:\Users\bsidd\OneDrive\Documents\Arduino\libraries\Servo
+  Not used: C:\Users\bsidd\AppData\Local\Arduino15\libraries\Servo
+exit status 1
+
+Compilation error: no matching function for call to 'Servo::write(Servo&)'
