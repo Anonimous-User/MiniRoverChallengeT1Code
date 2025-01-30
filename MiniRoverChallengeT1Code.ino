@@ -24,6 +24,13 @@ Servo armMiddle;
 #define INCLUDE_GAMEPAD_MODULE
 
 
+//control variables
+bool Auto = true;
+bool onLine = false;
+bool atEnd = false;
+int aBasePos = 0;
+int aMidPos = 0;
+
 
 /////////////////
 //MOTOR CONTROL//
@@ -79,8 +86,8 @@ void Drive(int FrontLeft, int FrontRight, int RearLeft, int RearRight){
     TurnRearRight(RearRight);
 }
 void MoveArm(int Base, int Middle){
-  armBase.write(armBase);
-  armMiddle.write(armMiddle);
+  armBase.write(Base);
+  armMiddle.write(Middle);
 }
 
 
@@ -88,7 +95,7 @@ void MoveArm(int Base, int Middle){
 //Tele-Op Mode//
 ////////////////
 void TeleOp(){
-  Dabble.processInputs();
+  Dabble.processInput();
   if(GamePad.isUpPressed()){
     Drive(128, 128, 128, 128);
   } else if(GamePad.isDownPressed()){
@@ -125,7 +132,7 @@ void autoMode(){
   ///////////////
   if (digitalRead(SensorM) == LOW) {
     onLine = true;
-    Drive(128, 128, 128, 128)  //move forward
+    Drive(128, 128, 128, 128);  //move forward
     Serial.println("fowarding");
   } else {
     onLine = false;
@@ -158,7 +165,7 @@ void autoMode(){
     MoveArm(90, 90);  //extend arm fully
     delay(1000);
 
-    Drive(128, 128, 128, 128)  //move forward
+    Drive(128, 128, 128, 128);  //move forward
     delay(1000);
 
     Drive(0, 0, 0, 0);  //stop vehicle
@@ -170,14 +177,6 @@ void autoMode(){
     Serial.println("ended");
   }
 }
-
-
-//control variables
-bool Auto = true;
-bool onLine = false;
-bool atEnd = false;
-int aBasePos = 0;
-int aMidPos = 0;
 
 
 void setup() {
