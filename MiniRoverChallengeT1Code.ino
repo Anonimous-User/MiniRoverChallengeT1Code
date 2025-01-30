@@ -1,4 +1,5 @@
 #include <Servo.h>
+#include <Dabble.h>
 
 Servo armBase;
 Servo armMiddle;
@@ -19,6 +20,8 @@ Servo armMiddle;
 #define RFCtrl A3            //right front control
 #define LRCtrl A4            //left rear control
 #define RRCtrl A5            //right rear control
+#define CUSTOM_SETTINGS
+#define INCLUDE_GAMEPAD_MODULE
 
 
 
@@ -69,6 +72,105 @@ void TurnRearRight(int val) {
     analogWrite(RRCtrl, val);
   }
 }
+void Drive(int FrontLeft, int FrontRight, int RearLeft, int RearRight){
+    TurnFrontLeft(FrontLeft);
+    TurnFrontRight(FrontRight);
+    TurnRearLeft(RearLeft);
+    TurnRearRight(RearRight);
+}
+void MoveArm(int Base, int Middle){
+  armBase.write(armBase);
+  armMiddle.write(armMiddle);
+}
+
+
+////////////////
+//Tele-Op Mode//
+////////////////
+void TeleOp(){
+  Dabble.processInputs();
+  if(GamePad.isUpPressed()){
+    Drive(128, 128, 128, 128);
+  } else if(GamePad.isDownPressed()){
+    Drive(-128, -128, -128, -128);
+  } else if(GamePad.isLeftPressed()){
+    Drive(-128, 128, -128, 128);
+  } else if(GamePad.isRightPressed()){
+    Drive(128, -128, 128, -128);
+  }
+  if(GamePad.isSquarePressed()){
+    //armBase up 
+  } else if(GamePad.isCirclePressed()){
+    //armBase down
+  }
+  if(GamePad.isTrianglePressed()){
+    //armMiddle up
+  } else if(GamePad.isCrossPressed()){
+    //armMiddle down
+  }
+  if(GamePad.isStartPressed()){
+    //idk
+  } else if(GamePad.isSelectPressed()){
+    //idk2
+  }
+}
+
+
+///////////////////
+//Autonomous Mode//
+///////////////////
+void autoMode(){
+  ///////////////
+  //follow line//
+  ///////////////
+  if (digitalRead(SensorM) == LOW) {
+    onLine = true;
+    Drive(128, 128, 128, 128)  //move forward
+    Serial.println("fowarding");
+  } else {
+    onLine = false;
+  }
+  if (!onLine) {
+    if (digitalRead(SensorL) == LOW) {
+      Drive(0, 128, 0, 0);  //move right side forward
+      Serial.println("lefting");
+    } else if (digitalRead(SensorR) == LOW) {
+      Drive(128, 0, 0, 0);  //move left side forward
+      Serial.println("righting");
+    }
+  } else {
+    if (digitalRead(SensorL) == LOW || digitalRead(SensorR) == LOW) {
+      atEnd = true;
+      Drive(0, 0, 0, 0);  //stop vehicle
+      Serial.println("end");
+    }
+  }
+
+  //////////////////
+  //pick up bucket//
+  //////////////////
+  if (atEnd) {         //only straight forward code here. Use delay to wait for action to finish
+    Drive(0, 0, 0, 0);  //stop vehicle
+
+    MoveArm(90, 0);  //extend arm out from under
+    delay(1000);
+
+    MoveArm(90, 90);  //extend arm fully
+    delay(1000);
+
+    Drive(128, 128, 128, 128)  //move forward
+    delay(1000);
+
+    Drive(0, 0, 0, 0);  //stop vehicle
+
+    MoveArm(135, 45);  //Raise arm but keep front part level(maybe a bit tilted is ok)
+    delay(1000);
+
+    Auto = false;
+    Serial.println("ended");
+  }
+}
+
 
 //control variables
 bool Auto = true;
@@ -97,6 +199,7 @@ void setup() {
   pinMode(LRCtrl, OUTPUT);
   pinMode(RRCtrl, OUTPUT);
   Serial.begin(9600);
+  Dabble.begin(9600);
   delay(1000);
 
   //reset all positions
@@ -113,80 +216,14 @@ void loop() {
   //////////////
   //Autonomous//
   //////////////
-
   if (Auto) {
-    ///////////////
-    //follow line//
-    ///////////////
-    if (digitalRead(SensorM) == LOW) {
-      onLine = true;
-      TurnFrontLeft(128);  //move forward
-      TurnFrontRight(128);
-      TurnRearLeft(128);
-      TurnRearRight(128);
-      Serial.println("fowarding");
-    } else {
-      onLine = false;
-    }
-    if (!onLine) {
-      if (digitalRead(SensorL) == LOW) {
-        TurnFrontLeft(0);  //move right side forward
-        TurnFrontRight(128);
-        TurnRearLeft(0);
-        TurnRearRight(0);
-        Serial.println("lefting");
-      } else if (digitalRead(SensorR) == LOW) {
-        TurnFrontLeft(128);  //move left side forward
-        TurnFrontRight(0);
-        TurnRearLeft(0);
-        TurnRearRight(0);
-        Serial.println("righting");
-      }
-    } else {
-      if (digitalRead(SensorL) == LOW && digitalRead(SensorR) == LOW) {
-        atEnd = true;
-        TurnFrontLeft(0);  //stop vehicle
-        TurnFrontRight(0);
-        TurnRearLeft(0);
-        TurnRearRight(0);
-        Serial.println("end");
-      }
-    }
-
-    //////////////////
-    //pick up bucket//
-    //////////////////
-    if (atEnd) {         //only straight forward code here. Use delay to wait for action to finish
-      TurnFrontLeft(0);  //stop vehicle
-      TurnFrontRight(0);
-      TurnRearLeft(0);
-      TurnRearRight(0);
-      armBase.write(90);  //extend arm out from under
-      armMiddle.write(0);
-      delay(1000);
-      armBase.write(90);  //extend arm fully
-      armMiddle.write(90);
-      delay(1000);
-      TurnFrontLeft(128);  //move forward
-      TurnFrontRight(128);
-      TurnRearLeft(128);
-      TurnRearRight(128);
-      delay(1000);
-      TurnFrontLeft(0);  //move forward
-      TurnFrontRight(0);
-      TurnRearLeft(0);
-      TurnRearRight(0);
-      armBase.write(135);  //Raise arm but keep front part level(maybe a bit tilted is ok)
-      armMiddle.write(45);
-      delay(1000);
-      Auto = false;
-      Serial.println("ended");
-    }
+    autoMode();
   }
 
   ///////////
   //Tele-op//
   ///////////
   else {
+    TeleOp();
   }
 }
