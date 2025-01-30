@@ -5,13 +5,13 @@ Servo armBase;
 Servo armMiddle;
 #define aBase 10             //arm base
 #define aMid 11              //arm middle
-#define SensorL 2            //ir sensor Left
-#define SensorM 3            //ir sensor Middle
-#define SensorR 4            //ir sensor Right
-#define LeftFrontforward 38   //front left wheel forward
-#define LeftFrontreverse 39   //front left wheel reverse
-#define RightFrontforward 40  //front right wheel forward
-#define RightFrontreverse 41  //front right wheel reverse
+#define SensorL 45            //ir sensor Left
+#define SensorM 43            //ir sensor Middle
+#define SensorR 41            //ir sensor Right
+#define LeftFrontforward 28   //front left wheel forward
+#define LeftFrontreverse 30   //front left wheel reverse
+#define RightFrontforward 32  //front right wheel forward
+#define RightFrontreverse 34  //front right wheel reverse
 #define LeftRearforward 42   //rear left wheel forward
 #define LeftRearreverse 43    //rear left wheel reverse
 #define RightRearforward 44  //rear right wheel forward
