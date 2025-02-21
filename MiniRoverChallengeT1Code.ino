@@ -3,21 +3,24 @@
 
 Servo armBase;
 Servo armMiddle;
-#define aBase 10             //arm base
-#define aMid 11              //arm middle
+Servo buttonPress;
+
+#define bPress 9             //button presser
+#define aBase 10             //arm at base
+#define aMid 11              //arm in middle
 // #define SensorL 45            //ir sensor Left
 // #define SensorM 43            //ir sensor Middle
 // #define SensorR 41            //ir sensor Right
-#define LeftFrontforward 28   //front left wheel forward
-#define LeftFrontreverse 30   //front left wheel reverse
-#define RightFrontforward 32  //front right wheel forward
-#define RightFrontreverse 34  //front right wheel reverse
+#define LeftFrontforward 7   //front left wheel forward
+#define LeftFrontreverse 8   //front left wheel reverse
+#define RightFrontforward 12  //front right wheel forward
+#define RightFrontreverse 13  //front right wheel reverse
+#define LFCtrl A2            //left front control
+#define RFCtrl A3            //right front control
 // #define LeftRearforward 42   //rear left wheel forward
 // #define LeftRearreverse 43    //rear left wheel reverse
 // #define RightRearforward 44  //rear right wheel forward
 // #define RightRearreverse 45  //rear right wheel reverse
-#define LFCtrl A2            //left front control
-#define RFCtrl A3            //right front control
 // #define LRCtrl A4            //left rear control
 // #define RRCtrl A5            //right rear control
 // #define CUSTOM_SETTINGS
@@ -242,7 +245,7 @@ void loop() {
     MoveArm();
     delay(15);
   }
-  for(int i=0; i>0; i--){
+  for(int i=90; i>0; i--){
     aBasePos=i;
     MoveArm();
     delay(15);
