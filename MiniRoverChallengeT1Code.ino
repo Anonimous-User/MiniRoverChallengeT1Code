@@ -154,21 +154,21 @@ void autoMode(){
 
   if (digitalRead(SensorM) == HIGH) {
     onLine = true;
-    // Drive(128, 128, 128, 128);  //move forward
+    Drive(128, 128, 128, 128);  //move forward
     Serial.println("fowarding");
   } else {
     onLine = false;
   }
   if (!onLine) {
     if (digitalRead(SensorL) == HIGH) {
-      // Drive(0, 128, 0, 0);  //move right side forward
+      Drive(0, 128, 0, 128);  //move right side forward
       Serial.println("lefting");
     } else if (digitalRead(SensorR) == HIGH) {
-      // Drive(128, 0, 0, 0);  //move left side forward
+      Drive(128, 0, 128, 0);  //move left side forward
       Serial.println("righting");
     }
   } else {
-    if (digitalRead(SensorL) == HIGH || digitalRead(SensorR) == HIGH) {
+    if (digitalRead(SensorL) == HIGH && digitalRead(SensorR) == HIGH) {
       atEnd = true;
       Drive(0, 0, 0, 0);  //stop vehicle
       Serial.println("end");
@@ -178,34 +178,29 @@ void autoMode(){
   //////////////////
   //pick up bucket//
   //////////////////
+  atEnd = true;
   if (atEnd) {         //only straight forward code here. Use delay to wait for action to finish
     Drive(0, 0, 0, 0);  //stop vehicle
 
-    for(int i=0; i<100; i++){  //extend arm out from under
-      aBasePos=i;
-      MoveArm();
-      delay(15);
-    }
-    delay(1000);
-
-    for(int i=0; i<85; i++){  //extend arm fully
-      aMidPos=i;
-      MoveArm();
-      delay(15);
-    }
-    delay(1000);
-
-    // Drive(128, 128, 128, 128);  //move forward
+    // extend arm out from under
+    aBasePos=80;
+    MoveArm();
+    delay(5000);
+    
+    Drive(128, 128, 128, 128);  //move forward
     delay(1000);
 
     Drive(0, 0, 0, 0);  //stop vehicle
 
-    while(aBasePos<135&&aMidPos>45){  //Raise arm but keep front part level(maybe a bit tilted is ok)
-      aBasePos++;
-      aMidPos--;
-      MoveArm();
-      delay(15);
-    }
+    //extend arm fully
+    aMidPos=60;
+    MoveArm();
+    delay(1000);
+
+    // Raise arm but keep front part level(maybe a bit tilted is ok)
+    aBasePos = 135;
+    aMidPos = 30;
+    MoveArm();
     delay(1000);
 
     Auto = false;
@@ -245,53 +240,17 @@ void setup() {
   armBase.write(0);
   armMiddle.write(0);
   buttonPress.write(0);
+  delay(5000);
 }
 
 void loop() {
-
-  // for(int i=0; i<180; i++){
-  //   bPressPos=i;
-  //   PushButton();
-  //   delay(15);
-  // }
-  // for(int i=180; i>0; i--){
-  //   bPressPos=i;
-  //   PushButton();
-  //   delay(15);
-  // }
-
-  // Drive(255, 255, 255, 255);
-  // delay(1000);
-  // Drive(-255, 255, 0, 0);
-  // delay(1000);
-  // Drive(0, 0, 0, 0);
-  // for(int i=0; i<90; i++){
-  //   aBasePos=i;
-  //   MoveArm();
-  //   delay(15);
-  // }
-  // for(int i=0; i<80; i++){
-  //   aMidPos=i;
-  //   MoveArm();
-  //   delay(15);
-  // }
-  // for(int i=80; i>0; i--){
-  //   aMidPos=i;
-  //   MoveArm();
-  //   delay(15);
-  // }
-  // for(int i=90; i>0; i--){
-  //   aBasePos=i;
-  //   MoveArm();
-  //   delay(15);
-  // }
-
   //////////////
   //Autonomous//
   //////////////
   if (Auto) {
     autoMode();
   }
+
 
   ///////////
   //Tele-op//
